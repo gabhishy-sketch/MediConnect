@@ -1,0 +1,98 @@
+/* App.css - styles for MediConnect */
+
+/*  Page reset / base */
+* {
+  box-sizing: border-box; /* include padding in width calculations */
+  margin: 0;               /* reset default margins */
+  padding: 0;              /* reset default padding */
+}
+html, body, #root {
+  height: 100%;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #f6f8fb;    /* soft background */
+  color: #223;            /* dark but soft text */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* page container centers content and gives comfortable width */
+.container {
+  max-width: 1000px;
+  margin: 36px auto;
+  padding: 28px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(28,40,60,0.08);
+}
+
+/* simple top nav with links */
+.top-nav {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.top-nav a {
+  color: #1d72ff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+.top-nav a:hover {
+  background: rgba(29,114,255,0.08);
+}
+
+/* heading styles */
+h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #101827;
+}
+p.lead {
+  color: #4b5563;
+  margin-bottom: 18px;
+}
+
+/* small utility card row (for doctors/links etc) */
+.card-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+.card {
+  background: #fbfdff;
+  border: 1px solid rgba(17,24,39,0.04);
+  padding: 14px;
+  border-radius: 8px;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* primary button */
+.btn {
+  display: inline-block;
+  background: #1d72ff;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  border: 0;
+  cursor: pointer;
+}
+.btn.secondary {
+  background: #e6eefc;
+  color: #1d72ff;
+}
+
+/* responsive tweaks for small screens */
+@media (max-width: 560px) {
+  .container { margin: 16px; padding: 16px; }
+  h1 { font-size: 22px; }
+  .top-nav { gap: 10px; }
+}
