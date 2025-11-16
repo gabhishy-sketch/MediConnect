@@ -1,0 +1,35 @@
+/* Footer.css */
+.mc-footer{
+  margin-top:48px;
+  background:linear-gradient(180deg, rgba(21,101,192,0.02), transparent);
+  padding:28px 0 8px;
+  color:var(--text-dark);
+}
+
+.footer-inner{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:20px;
+  padding-bottom:8px;
+}
+
+.footer-left{ display:flex; align-items:center; gap:12px; }
+
+.footer-right{ display:flex; gap:28px; align-items:flex-start; }
+
+.footer-col a{
+  display:block;
+  color:var(--text-muted);
+  text-decoration:none;
+  margin:6px 0;
+  font-size:14px;
+}
+.footer-title{ font-weight:700; margin-bottom:6px; }
+
+.logo-pill.small{ width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; color:white; font-weight:700; background: linear-gradient(135deg,var(--primary-1),var(--accent)); }
+
+@media(max-width:900px){
+  .footer-inner{ flex-direction:column; align-items:flex-start; gap:12px; }
+  .footer-right{ width:100%; display:flex; gap:18px; flex-wrap:wrap; }
+}

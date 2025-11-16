@@ -1,0 +1,41 @@
+/* src/styles/dashboard.css */
+
+.mc-dashboard .db-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px;
+  border-radius: 12px;
+  background: transparent;
+  margin-bottom: 8px;
+}
+
+.db-header-left h4 {
+  margin: 0;
+}
+
+.db-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.db-panel {
+  padding: 18px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #fff, #fbfdff);
+  margin-bottom: 24px;
+  box-shadow: 0 8px 30px rgba(13,38,76,0.03);
+}
+
+.empty-state { text-align: center; color: rgba(0,0,0,0.6); }
+
+.stat-badge {
+  min-width: 54px;
+  text-align: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.centered { display:flex; justify-content:center; align-items:center; }

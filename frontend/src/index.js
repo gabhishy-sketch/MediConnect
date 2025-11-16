@@ -1,25 +1,23 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './App';
-import './index.css';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+// src/index.js
+import React from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App";
+import { AuthProvider } from "./contexts/AuthContext"; // named export
+import "./styles/global.css";
+import "./styles/animations.css";
 
-// MUI theme (keeps CSS but MUI components will look consistent)
-const theme = createTheme({
-  palette: {
-    primary: { main: '#1565c0' },
-    secondary: { main: '#00acc1' },
-    background: { default: '#f6fbff' }
-  },
-  typography: { fontFamily: 'Inter, Roboto, Arial, sans-serif' }
-});
+// Optional: MUI theme wrapper (if you created it)
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import theme from "./styles/theme";
 
-const container = document.getElementById('root');
-const root = createRoot(container);
+const root = createRoot(document.getElementById("root"));
+
 root.render(
   <ThemeProvider theme={theme}>
     <CssBaseline />
-    <App />
+    <AuthProvider>
+      <App />
+    </AuthProvider>
   </ThemeProvider>
 );

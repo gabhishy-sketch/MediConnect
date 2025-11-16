@@ -1,61 +1,59 @@
 import React, { useState, useContext } from 'react';
-import { Paper, Box, Typography, TextField, Button, Grid, Alert } from '@mui/material';
+import { Box, Paper, Typography, TextField, Alert } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import api from '../api/api';
 import { AuthContext } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Register(){
-  const { register: authRegister } = useContext(AuthContext);
-  const { register, handleSubmit, formState:{ errors, isSubmitting } } = useForm({ defaultValues:{ role:'patient' } });
-  const [serverError, setServerError] = useState('');
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { register: rhf, handleSubmit, formState:{ errors, isSubmitting } } = useForm();
+  const [serverError,setServerError] = useState('');
+  const [successMsg,setSuccessMsg] = useState('');
 
   const onSubmit = async (data) => {
-    setServerError('');
+    setServerError(''); setSuccessMsg('');
     try {
       const res = await api.post('/auth/register', data);
-      authRegister(res.data.token, res.data.user || null);
+      if (res?.data?.token) {
+        login(res.data.token, res.data.user || null);
+        navigate('/dashboard');
+      } else {
+        setSuccessMsg('Registered successfully. Please login.');
+      }
     } catch (err) {
-      setServerError(err.response?.data?.msg || err.message || 'Registration failed');
+      setServerError(err?.response?.data?.message || err.message || 'Registration failed');
     }
   };
 
   return (
-    <div className="app-hero">
-      <div className="container-lg">
-        <div className="topbar" role="banner">
-          <div className="brand"><div className="logo">MC</div><div>MediConnect</div></div>
-          <div style={{display:'flex',gap:12}}>
-            <a href="/doctors" style={{color:'#fff',textDecoration:'none',fontWeight:600}}>Doctors</a>
-            <a href="/login" style={{color:'#fff',textDecoration:'none'}}>Login</a>
-            <a href="/register" style={{color:'#fff',textDecoration:'none'}}>Register</a>
-          </div>
-        </div>
+    <Box className="page-hero">
+      <Box className="container">
+        <Paper className="glass-card auth-card fade-in" elevation={6} sx={{display:'grid', gridTemplateColumns:{xs:'1fr', md:'1fr 1fr'}, gap:3}}>
+          <Box sx={{p:2}} aria-hidden>
+            <Typography variant="h4" sx={{fontWeight:800}}>Create your account</Typography>
+            <Typography className="subtitle">Register as patient, doctor or pharmacist.</Typography>
+          </Box>
 
-        <Paper className="auth-card" elevation={8}>
-          <div className="auth-left">
-            <div style={{display:'flex',gap:12,alignItems:'center'}}>
-              <div className="logo">MC</div>
-              <div>
-                <Typography className="h1">Create your account</Typography>
-                <Typography className="lead">Join MediConnect to book doctors and order medicines online.</Typography>
-              </div>
-            </div>
-          </div>
+          <Box sx={{p:2}}>
+            <Typography variant="h6" sx={{mb:2, fontWeight:700}}>Register</Typography>
+            {serverError && <Alert severity="error">{serverError}</Alert>}
+            {successMsg && <Alert severity="success">{successMsg}</Alert>}
 
-          <div className="auth-form">
-            <Typography variant="h5" sx={{mb:1, fontWeight:700}}>Register</Typography>
-            {serverError && <Alert severity="error" sx={{mb:1}}>{serverError}</Alert>}
+            <form onSubmit={handleSubmit(onSubmit)} noValidate>
+              <TextField label="Full name" fullWidth size="small" margin="dense" {...rhf('name',{required:'Name required'})} error={!!errors.name} helperText={errors.name?.message}/>
+              <TextField label="Email" fullWidth size="small" margin="dense" {...rhf('email',{required:'Email required', pattern:{value:/^[^\s@]+@[^\s@]+\.[^\s@]+$/, message:'Invalid'}})} error={!!errors.email} helperText={errors.email?.message}/>
+              <TextField label="Password" type="password" fullWidth size="small" margin="dense" {...rhf('password',{required:'Password required', minLength:{value:6,message:'Min 6'}})} error={!!errors.password} helperText={errors.password?.message}/>
+              <TextField label="Role" fullWidth size="small" margin="dense" defaultValue="patient" {...rhf('role')} helperText="patient | doctor | pharmacist" />
 
-            <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
-              <TextField label="Full name" variant="outlined" size="small" fullWidth {...register('name',{required:'Name required'})} error={!!errors.name} helperText={errors.name?.message} sx={{mb:2}} />
-              <TextField label="Email" variant="outlined" size="small" fullWidth {...register('email',{required:'Email required'})} error={!!errors.email} helperText={errors.email?.message} sx={{mb:2}} />
-              <TextField label="Password" variant="outlined" size="small" fullWidth type="password" {...register('password',{required:'Password required'})} error={!!errors.password} helperText={errors.password?.message} sx={{mb:2}} />
-              <TextField label="Role (patient/doctor/pharmacist)" variant="outlined" size="small" fullWidth {...register('role',{required:true})} sx={{mb:2}} />
-              <button className="btn" type="submit" disabled={isSubmitting}>{isSubmitting ? 'Creating...' : 'Create account'}</button>
-            </Box>
-          </div>
+              <Box sx={{mt:2}}>
+                <button className="mc-btn" type="submit" disabled={isSubmitting}>{isSubmitting ? 'Creating…' : 'Create account'}</button>
+              </Box>
+            </form>
+          </Box>
         </Paper>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
